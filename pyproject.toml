@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "posting-auth-service"
+version = "0.1.0"
+description = "Auth service for Posting Micro-services"
+authors = ["Luciano Gomes <lucianogvda02@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.112.1"
+pymongo = "^4.8.0"
+mongoengine = "^0.28.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
