@@ -11,7 +11,7 @@ from src.schemas.auth import TokenData, UserAuthSchema
 
 pwd_context = PasswordHash.recommended()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def create_access_token(data: dict) -> str:
@@ -52,7 +52,7 @@ def get_current_user(
 
     from src.services.user import UserService
 
-    user = UserService().get_user_by_nickname(token_data.username)
+    user = UserService().get_user_by_email(token_data.username)
 
     if not user:
         raise credentials_exception

@@ -14,8 +14,8 @@ class UserService:
     async def get_user(self, user_id: ObjectId) -> UserPublic:
         return self.user_repository.get_user(user_id)
 
-    def get_user_by_nickname(self, nickname: str) -> UserAuthSchema:
-        return self.user_repository.get_user_by_nickname(nickname)
+    def get_user_by_email(self, email: str) -> UserAuthSchema:
+        return self.user_repository.get_user_by_email(email)
 
     async def get_users(self) -> list[UserPublic]:
         return self.user_repository.get_users()

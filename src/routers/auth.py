@@ -9,7 +9,7 @@ from application.security import (
     create_access_token,
     get_current_user,
 )
-from src.schemas.auth import Token
+from src.schemas.auth import Token, UserAuthSchema
 from src.schemas.user import UserSchema
 from src.services.user import UserService
 
@@ -21,7 +21,7 @@ OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]
 
 @router.post("/login", response_model=Token)
 def login(form_data: OAuth2Form):
-    user = user_service.get_user_by_nickname(form_data.username)
+    user = user_service.get_user_by_email(form_data.username)
 
     if not user:
         raise HTTPException(
@@ -42,7 +42,7 @@ def login(form_data: OAuth2Form):
 
 @router.post("/refresh_token", response_model=Token)
 def refresh_access_token(
-    user: UserSchema = Depends(get_current_user),
+    user: UserAuthSchema = Depends(get_current_user),
 ):
     new_access_token = create_access_token(data={"sub": user.email})
 

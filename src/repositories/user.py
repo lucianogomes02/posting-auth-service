@@ -24,6 +24,7 @@ class UserRepository:
         user = User.objects.create(**user_data)
         return user.id
 
-    def get_user_by_nickname(self, nickname: str) -> UserAuthSchema:
-        user = User._get_collection().find_one({"nickname": nickname})
+    @staticmethod
+    def get_user_by_email(email: str) -> UserAuthSchema:
+        user = User._get_collection().find_one({"email": email})
         return UserAuthSchema.mongo_to_pydantic(user)
