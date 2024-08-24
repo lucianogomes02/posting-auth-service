@@ -10,7 +10,23 @@ python = "^3.12"
 fastapi = "^0.112.1"
 pymongo = "^4.8.0"
 mongoengine = "^0.28.2"
+uvicorn = "^0.30.6"
 
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.2"
+taskipy = "^1.13.0"
+
+[tool.taskipy.tasks]
+format = "ruff format ."
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+preview = true
+select = ["I", "F", "E", "W", "PL", "PT"]
 
 [build-system]
 requires = ["poetry-core"]
