@@ -1,24 +1,11 @@
 from datetime import datetime
 from typing import Optional
 
-from bson import ObjectId
 from pydantic import BaseModel, EmailStr
 
 
-class ObjectIdStr(ObjectId):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        if not isinstance(v, ObjectId):
-            raise TypeError("ObjectId required")
-        return str(v)
-
-
-class UserSchema(BaseModel):
-    id: ObjectIdStr
+class UserPublic(BaseModel):
+    id: str
     name: str
     nickname: str
     email: EmailStr
@@ -30,5 +17,16 @@ class UserSchema(BaseModel):
     deleted_when: Optional[datetime] = None
 
 
+class UserSchema(BaseModel):
+    name: str
+    nickname: str
+    email: EmailStr
+    password: str
+
+
+class CreatedUser(BaseModel):
+    id: str
+
+
 class UserList(BaseModel):
-    users: list[UserSchema]
+    users: list[UserPublic]

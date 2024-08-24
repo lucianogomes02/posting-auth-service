@@ -1,8 +1,7 @@
 from bson import ObjectId
 
-from src.models.user import User
 from src.repositories.user import UserRepository
-from src.schemas.user import UserSchema
+from src.schemas.user import UserPublic, UserSchema
 
 
 class UserService:
@@ -11,8 +10,11 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
-    def get_user(self, user_id: ObjectId) -> UserSchema:
+    def get_user(self, user_id: ObjectId) -> UserPublic:
         return self.user_repository.get_user(user_id)
 
-    def get_users(self) -> list[UserSchema]:
+    async def get_users(self) -> list[UserPublic]:
         return self.user_repository.get_users()
+
+    async def create_user(self, user: UserSchema) -> ObjectId:
+        return self.user_repository.create_user(user)
