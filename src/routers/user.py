@@ -1,8 +1,7 @@
 from http import HTTPStatus
-from http.client import HTTPException
 
 from bson import ObjectId
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.schemas.user import UserList, CreatedUser, UserSchema, UserPublic
 from src.services.user import UserService
@@ -30,9 +29,9 @@ async def read_users():
 
 
 @router.post("/", status_code=HTTPStatus.CREATED, response_model=CreatedUser)
-async def create_user(user: UserSchema):
+def create_user(user: UserSchema):
     try:
-        new_user = await user_service.create_user(user)
+        new_user = user_service.create_user(user)
         return CreatedUser(id=str(new_user))
     except Exception as e:
         raise HTTPException(HTTPStatus.BAD_REQUEST, str(e))
