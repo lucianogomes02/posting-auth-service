@@ -7,9 +7,11 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt import encode, decode, DecodeError, ExpiredSignatureError
 from pwdlib import PasswordHash
 
+from application.settings import Settings
 from src.schemas.auth import TokenData, UserAuthSchema
 
 pwd_context = PasswordHash.recommended()
+settings = Settings()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
@@ -18,7 +20,9 @@ def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(minutes=10)
     to_encode.update({"exp": expire})
-    encoded_jwt = encode(to_encode, "meu-segredo", algorithm="HS256")
+    encoded_jwt = encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
     return encoded_jwt
 
 
@@ -40,7 +44,9 @@ def get_current_user(
     )
 
     try:
-        payload = decode(token, "meu-segredo", algorithms=["HS256"])
+        payload = decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         username: str = payload.get("sub")
         if not username:
             raise credentials_exception

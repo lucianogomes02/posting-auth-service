@@ -10,7 +10,6 @@ from application.security import (
     get_current_user,
 )
 from src.schemas.auth import Token, UserAuthSchema
-from src.schemas.user import UserSchema
 from src.services.user import UserService
 
 router = APIRouter(prefix="/auth", tags=["auth"])
