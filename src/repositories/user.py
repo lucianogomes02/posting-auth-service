@@ -8,12 +8,12 @@ class UserRepository:
     @staticmethod
     def get_user(user_id: ObjectId) -> UserPublic:
         user = User._get_collection().find_one({"_id": user_id})
-        return UserPublic(**user)
+        return UserPublic.mongo_to_pydantic(user)
 
     @staticmethod
     def get_users() -> list[UserPublic]:
         users = list(User._get_collection().find())
-        return [UserPublic(**user) for user in users]
+        return [UserPublic.mongo_to_pydantic(user) for user in users]
 
     @staticmethod
     def create_user(user: UserSchema) -> ObjectId:

@@ -1,13 +1,23 @@
 from http import HTTPStatus
 from http.client import HTTPException
 
+from bson import ObjectId
 from fastapi import APIRouter
 
-from src.schemas.user import UserList, CreatedUser, UserSchema
+from src.schemas.user import UserList, CreatedUser, UserSchema, UserPublic
 from src.services.user import UserService
 
 router = APIRouter(prefix="/user", tags=["user"])
 user_service = UserService()
+
+
+@router.get("/{user_id}", status_code=HTTPStatus.OK, response_model=UserPublic)
+async def get_user_by_id(user_id: str):
+    try:
+        user = await user_service.get_user(ObjectId(user_id))
+        return user
+    except Exception as e:
+        raise HTTPException(HTTPStatus.BAD_REQUEST, str(e))
 
 
 @router.get("/", status_code=HTTPStatus.OK, response_model=UserList)

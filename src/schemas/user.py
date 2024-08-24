@@ -12,9 +12,24 @@ class UserPublic(BaseModel):
     is_active: bool
     created_when: datetime
     updated_when: datetime
-    last_login: datetime
-    deleted: bool
+    last_login: Optional[datetime] = None
+    deleted: bool = False
     deleted_when: Optional[datetime] = None
+
+    @classmethod
+    def mongo_to_pydantic(cls, document: dict) -> "UserPublic":
+        return cls(
+            id=str(document["_id"]),
+            name=document["name"],
+            nickname=document["nickname"],
+            email=document["email"],
+            is_active=document["is_active"],
+            created_when=document["created_when"],
+            updated_when=document["updated_when"],
+            last_login=document.get("last_login"),
+            deleted=document.get("deleted"),
+            deleted_when=document.get("deleted_when"),
+        )
 
 
 class UserSchema(BaseModel):

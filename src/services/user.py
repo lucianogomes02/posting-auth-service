@@ -10,7 +10,7 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
-    def get_user(self, user_id: ObjectId) -> UserPublic:
+    async def get_user(self, user_id: ObjectId) -> UserPublic:
         return self.user_repository.get_user(user_id)
 
     async def get_users(self) -> list[UserPublic]:
