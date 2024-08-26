@@ -60,7 +60,7 @@ def get_current_user(
 
     user = UserService().get_user_by_email(token_data.username)
 
-    if not user:
+    if not user or user.get("deleted", False):
         raise credentials_exception
 
     return user
