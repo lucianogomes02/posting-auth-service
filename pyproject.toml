@@ -16,6 +16,9 @@ pyjwt = "^2.9.0"
 pwdlib = {extras = ["argon2"], version = "^0.2.1"}
 python-multipart = "^0.0.9"
 pydantic-settings = "^2.4.0"
+testcontainers = "^4.8.0"
+pytest = "^8.3.2"
+freezegun = "^1.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -23,15 +26,17 @@ ruff = "^0.6.2"
 taskipy = "^1.13.0"
 
 [tool.taskipy.tasks]
-format = "ruff format ."
+lint = 'ruff check .; ruff check . --diff'
+format = 'ruff check . --fix; ruff format .'
+test = 'pytest -s -x -vv'
 
 [tool.ruff]
-line-length = 79
+line-length = 120
 extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
 preview = true
-select = ["I", "F", "E", "W", "PL", "PT"]
+select = ["I", "F", "E", "W"]
 
 [build-system]
 requires = ["poetry-core"]

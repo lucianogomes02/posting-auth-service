@@ -1,11 +1,11 @@
 from datetime import datetime
 
 from mongoengine import (
-    Document,
-    StringField,
-    EmailField,
     BooleanField,
     DateTimeField,
+    Document,
+    EmailField,
+    StringField,
 )
 
 

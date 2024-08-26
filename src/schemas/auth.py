@@ -25,7 +25,9 @@ class UserAuthSchema(BaseModel):
     deleted: bool = False
 
     @classmethod
-    def mongo_to_pydantic(cls, document: dict) -> "UserAuthSchema":
+    def mongo_to_pydantic(cls, document: dict) -> Optional["UserAuthSchema"]:
+        if not document:
+            return None
         return cls(
             id=str(document["_id"]),
             name=document["name"],

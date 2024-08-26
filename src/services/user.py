@@ -3,11 +3,12 @@ from http import HTTPStatus
 
 from bson import ObjectId
 from fastapi import HTTPException
+from zoneinfo import ZoneInfo
 
 from application.security import get_password_hash
 from src.repositories.user import UserRepository
 from src.schemas.auth import UserAuthSchema
-from src.schemas.user import UserPublic, UserSchema, UserUpdateSchema, UserId
+from src.schemas.user import UserId, UserPublic, UserSchema, UserUpdateSchema
 
 
 class UserService:
@@ -39,6 +40,6 @@ class UserService:
             if value:
                 user[attribute] = value
 
-        user["updated_when"] = datetime.now()
+        user["updated_when"] = datetime.now(tz=ZoneInfo("UTC"))
         updated_user = self.user_repository.update_user(user)
         return UserId(id=str(updated_user))

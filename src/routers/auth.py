@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
 from application.security import (
-    verify_password,
     create_access_token,
     get_current_user,
+    verify_password,
 )
 from src.schemas.auth import Token, UserAuthSchema
 from src.services.user import UserService
@@ -25,13 +25,13 @@ def login(form_data: OAuth2Form):
     if not user:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Incorrect nickname or password",
+            detail="Incorrect email or password",
         )
 
     if not verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Incorrect nickname or password",
+            detail="Incorrect email or password",
         )
 
     access_token = create_access_token(data={"sub": user.email})
