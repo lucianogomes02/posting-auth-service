@@ -1,11 +1,10 @@
-import uvicorn
+from fastapi import FastAPI
 
-from application.api import create_api
 from application.db_config import mongo_start_connection
+from src.routers import user
+from src.routers import auth
 
 mongo_start_connection()
-api = create_api()
-
-
-if __name__ == "__main__":
-    uvicorn.run(api, host="127.0.0.1", port=8000, log_level="info")
+api = FastAPI()
+api.include_router(user.router)
+api.include_router(auth.router)

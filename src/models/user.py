@@ -13,7 +13,7 @@ class User(Document):
     name = StringField(required=True)
     nickname = StringField(required=True, unique=True)
     email = EmailField(required=True, unique=True)
-    password = StringField(required=True)
+    password = StringField(max_length=512, required=True)
     is_active = BooleanField(default=True)
     created_when = DateTimeField(default=datetime.now)
     updated_when = DateTimeField(default=datetime.now)
