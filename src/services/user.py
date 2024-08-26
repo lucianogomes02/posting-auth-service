@@ -1,9 +1,9 @@
 from datetime import datetime
 from http import HTTPStatus
-from zoneinfo import ZoneInfo
 
 from bson import ObjectId
 from fastapi import HTTPException
+from zoneinfo import ZoneInfo
 
 from application.security import get_password_hash
 from src.repositories.user import UserRepository
