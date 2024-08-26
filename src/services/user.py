@@ -1,5 +1,6 @@
 from datetime import datetime
 from http import HTTPStatus
+from zoneinfo import ZoneInfo
 
 from bson import ObjectId
 from fastapi import HTTPException
@@ -39,6 +40,6 @@ class UserService:
             if value:
                 user[attribute] = value
 
-        user["updated_when"] = datetime.now()
+        user["updated_when"] = datetime.now(tz=ZoneInfo("UTC"))
         updated_user = self.user_repository.update_user(user)
         return UserId(id=str(updated_user))
