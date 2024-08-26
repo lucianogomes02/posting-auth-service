@@ -39,7 +39,14 @@ class UserSchema(BaseModel):
     password: str
 
 
-class CreatedUser(BaseModel):
+class UserUpdateSchema(BaseModel):
+    name: Optional[str] = None
+    nickname: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
+
+class UserId(BaseModel):
     id: str
 
 

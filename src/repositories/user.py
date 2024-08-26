@@ -1,9 +1,10 @@
+from typing import Optional
+
 from bson import ObjectId
 
-from application.security import get_password_hash
 from src.models.user import User
 from src.schemas.auth import UserAuthSchema
-from src.schemas.user import UserPublic, UserSchema
+from src.schemas.user import UserPublic, UserSchema, UserId
 
 
 class UserRepository:
@@ -19,12 +20,19 @@ class UserRepository:
 
     @staticmethod
     def create_user(user: UserSchema) -> ObjectId:
-        user_data = {**user.model_dump()}
-        user_data["password"] = get_password_hash(user.password)
-        user = User.objects.create(**user_data)
+        user = User.objects.create(**user.model_dump())
         return user.id
 
     @staticmethod
     def get_user_by_email(email: str) -> UserAuthSchema:
         user = User._get_collection().find_one({"email": email})
         return UserAuthSchema.mongo_to_pydantic(user)
+
+    @staticmethod
+    def get_user_by_id(user_id: ObjectId) -> Optional[User]:
+        return User._get_collection().find_one({"_id": ObjectId(user_id)})
+
+    @staticmethod
+    def update_user(user: User) -> UserId:
+        User._get_collection().update_one({"_id": user["_id"]}, {"$set": {**user}})
+        return user["_id"]
