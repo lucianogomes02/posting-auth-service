@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from application.security import get_password_hash
 from src.repositories.user import UserRepository
 from src.schemas.auth import UserAuthSchema
-from src.schemas.user import UserPublic, UserSchema, UserUpdateSchema, UserId
+from src.schemas.user import UserId, UserPublic, UserSchema, UserUpdateSchema
 
 
 class UserService:

@@ -4,7 +4,7 @@ from bson import ObjectId
 
 from src.models.user import User
 from src.schemas.auth import UserAuthSchema
-from src.schemas.user import UserPublic, UserSchema, UserId
+from src.schemas.user import UserId, UserPublic, UserSchema
 
 
 class UserRepository:

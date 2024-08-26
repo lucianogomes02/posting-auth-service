@@ -17,7 +17,9 @@ class UserPublic(BaseModel):
     deleted_when: Optional[datetime] = None
 
     @classmethod
-    def mongo_to_pydantic(cls, document: dict) -> "UserPublic":
+    def mongo_to_pydantic(cls, document: dict) -> Optional["UserPublic"]:
+        if not document:
+            return None
         return cls(
             id=str(document["_id"]),
             name=document["name"],
