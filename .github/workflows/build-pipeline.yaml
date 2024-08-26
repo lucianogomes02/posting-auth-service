@@ -1,16 +1,22 @@
 name: Pipeline-Actions
 on: [pull_request, push]
 jobs:
-  test:
+  linter-and-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Install Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.12'
 
+      - name: Install poetry
+        run: pipx install poetry
+
       - name: Install dependencies
-        run: pipx install poetry && poetry install
+        run: poetry install
 
       - name: Run Ruff Linter Task
         run: poetry run task format
